@@ -47,6 +47,7 @@ object Robot extends App {
 
     val modules: List[IrcModule] = PongModule ::
       new JoinModule(channel) ::
+      new BadNickModule(nick) ::
       new GonnaGiveItToYaModule ::
       new ScryfallModule(respond) ::
       new MerriamWebsterModule(respond) ::

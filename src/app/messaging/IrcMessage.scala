@@ -32,6 +32,10 @@ case class ChatMessage(user: String, channel: String, message: String) extends I
 
 case class PingMessage(body: String) extends IrcMessage
 
+case class NickMessage(body: String) extends IrcMessage {
+  override def serialize = "NICK " + body
+}
+
 case class PongMessage(body: String) extends IrcMessage {
   override def serialize = "PONG " + body
 }
@@ -43,7 +47,7 @@ case class JoinMessage(channel: String) extends IrcMessage {
 object IrcMessage {
   val pingMsgRegex = "PING (.*)$".r
   val chatMsgRegex = ":([^!]+).* PRIVMSG (#\\w+) :(.*)$".r
-  val serverMsgRegex = ":.+ (\\d+) \\w+ (.*)$".r
+  val serverMsgRegex = ":.+ (\\d+) [\\w\\*]+ (.*)$".r
   def inputMatcher: PartialFunction[String, IrcMessage] = {
     case pingMsgRegex(body: String) => PingMessage(body)
     case chatMsgRegex(user: String, channel: String, message: String) => ChatMessage(user, channel, message)

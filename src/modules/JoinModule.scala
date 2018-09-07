@@ -1,6 +1,6 @@
 package modules
 
-import app.messaging.{ServerMessage, JoinMessage, IrcMessage}
+import app.messaging._
 
 import scala.util.matching.Regex
 
@@ -10,5 +10,11 @@ import scala.util.matching.Regex
 class JoinModule(channel: String) extends IrcModule {
   override def func: PartialFunction[IrcMessage, Option[IrcMessage]] = {
     case ServerMessage(4, _) => Some(JoinMessage(channel))
+  }
+}
+
+class BadNickModule(nick: String) extends IrcModule {
+  override def func: PartialFunction[IrcMessage, Option[IrcMessage]] = {
+    case ServerMessage(433, _) => Some(NickMessage(nick + "_"))
   }
 }

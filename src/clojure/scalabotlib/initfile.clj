@@ -13,7 +13,7 @@
   (if @ini
     @ini
     (reset! ini (try (read-ini "bot.ini")
-                     (catch Exception e {})))))
+                     (catch java.io.IOException e {})))))
 
 (defn -getValue [val]
   "
